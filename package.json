@@ -22,9 +22,11 @@
     },
     "homepage": "https://github.com/bbonkr/convert-file-to-base64-encoded-string#readme",
     "dependencies": {
+        "@bbon/filedownload": "^1.1.2",
         "halfmoon": "^1.1.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-dropzone": "^11.2.0",
         "react-icons": "^3.11.0",
         "smoothscroll-polyfill": "^0.4.4"
     },

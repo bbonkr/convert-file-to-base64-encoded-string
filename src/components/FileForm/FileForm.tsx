@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { FileInfo } from '../../interfaces';
 import { FileHelper } from '../../lib/FileHelper';
 
@@ -8,52 +9,74 @@ interface FileFormProps {
 
 export const FileForm = ({ onFileLoaded }: FileFormProps) => {
     const fileHelper = new FileHelper();
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.persist();
+    const [isEnter, setIsEnter] = useState(false);
 
-        const { files } = event.target;
+    const { getRootProps, getInputProps } = useDropzone({
+        // accept: 'image/*',
+        onDragEnter: () => {
+            setIsEnter((prevState) => true);
+        },
+        onDragLeave: () => {
+            setIsEnter((prevState) => false);
+        },
+        onDrop: (files) => {
+            if (files && files.length > 0) {
+                const tasks: Promise<FileInfo>[] = [];
 
-        if (files && files.length > 0) {
-            const tasks: Promise<FileInfo>[] = [];
+                for (
+                    let i = 0, fileLength = files?.length;
+                    i < fileLength;
+                    i++
+                ) {
+                    const file = files[i];
 
-            for (let i = 0, fileLength = files?.length; i < fileLength; i++) {
-                const file = files?.item(i);
+                    if (file) {
+                        tasks.push(fileHelper.getDataUrl(file));
+                    }
+                }
 
-                if (file) {
-                    tasks.push(fileHelper.getDataUrl(file));
+                if (tasks.length > 0) {
+                    Promise.all(tasks)
+                        .then((results) => {
+                            if (onFileLoaded) {
+                                onFileLoaded(results);
+                            }
+                        })
+                        .catch((err) => {})
+                        .finally(() => {});
                 }
             }
 
-            if (tasks.length > 0) {
-                Promise.all(tasks)
-                    .then((results) => {
-                        if (onFileLoaded) {
-                            onFileLoaded(results);
-                        }
-                    })
-                    .catch((err) => {})
-                    .finally(() => {});
-            }
-        }
-    };
+            setIsEnter(false);
+        },
+    });
 
     return (
-        <form>
-            <div className="form-group">
-                <label htmlFor="picture" className="required">
-                    Load file
-                </label>
-                <div className="custom-file">
-                    <input
-                        type="file"
-                        id="picture"
-                        required
-                        multiple
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="picture">Choose File</label>
+        <React.Fragment>
+            <div
+                {...getRootProps({
+                    className: `card ${
+                        isEnter ? 'bg-primary' : 'bg-transparent'
+                    }`,
+                })}
+            >
+                <div className="form-group">
+                    <input {...getInputProps()} type="file" multiple />
+
+                    <div className="text-center">
+                        {isEnter ? (
+                            <p>
+                                <code>Drop</code> files
+                            </p>
+                        ) : (
+                            <p>
+                                <code>Click</code> to open file dialog or{' '}
+                                <code>Drag 'n' drop</code> files here
+                            </p>
+                        )}
+                    </div>
                 </div>
             </div>
-        </form>
+        </React.Fragment>
     );
 };

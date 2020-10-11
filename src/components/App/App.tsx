@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import halfmoon from 'halfmoon';
+import { FileDownloadHelper } from '@bbon/filedownload';
+import Dropzone, { DropzoneRef } from 'react-dropzone';
 import { MainLayout } from '../MainLayout';
 import { ContentWrapper } from '../ContentWrapper/';
 import { FileInfo, Position } from '../../interfaces';
@@ -12,8 +14,11 @@ import { FileForm } from '../FileForm/FileForm';
 import { Media } from '../Media';
 
 import 'halfmoon/css/halfmoon.min.css';
+import { FileHelper } from '../../lib/FileHelper';
 
 export const App = () => {
+    const fileDownloadHelper = new FileDownloadHelper();
+    const fileHelper = new FileHelper();
     const [scrollPosition, setScrollPosition] = useState<Position>({
         top: 0,
         left: 0,
@@ -52,6 +57,14 @@ export const App = () => {
         });
     };
 
+    const handleDownload = (file: FileInfo) => () => {
+        fileDownloadHelper.download({
+            data: fileHelper.dataURItoBlob(file),
+            filename: file.name,
+            contentType: file.type,
+        });
+    };
+
     useEffect(() => {
         const bodyEl = document.querySelector('body');
 
@@ -70,9 +83,7 @@ export const App = () => {
             <Header />
             <ContentWrapper scrollPosition={scrollPosition}>
                 <Content title="">
-                    <Card>
-                        <FileForm onFileLoaded={handleFileLoaded} />
-                    </Card>
+                    <FileForm onFileLoaded={handleFileLoaded} />
                 </Content>
                 <Content title="Loaded files">
                     <div className="d-flex flex-row flex-wrap">
@@ -84,7 +95,12 @@ export const App = () => {
                                         <Content title={file.name}>
                                             <p>{file.size} Bytes</p>
                                             <div className="text-center">
-                                                <button className="btn btn-primary">
+                                                <button
+                                                    className="btn btn-primary"
+                                                    onClick={handleDownload(
+                                                        file,
+                                                    )}
+                                                >
                                                     <FaDownload />{' '}
                                                     <span>Download</span>
                                                 </button>
