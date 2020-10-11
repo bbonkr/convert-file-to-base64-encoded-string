@@ -1,3 +1,5 @@
+![Deploy Project](https://github.com/bbonkr/convert-file-to-base64-encoded-string/workflows/Deploy%20Project/badge.svg?branch=master)
+
 ## 개요
 
 바이너리를 [Data URI](https://en.wikipedia.org/wiki/Data_URI_scheme) 문자열로 변환합니다.
