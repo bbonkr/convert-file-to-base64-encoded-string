@@ -1,20 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import halfmoon from 'halfmoon';
 import { FileDownloadHelper } from '@bbon/filedownload';
-import Dropzone, { DropzoneRef } from 'react-dropzone';
 import { MainLayout } from '../MainLayout';
 import { ContentWrapper } from '../ContentWrapper/';
 import { FileInfo, Position } from '../../interfaces';
 import { Footer } from '../Footer';
 import { Header } from '../Header';
 import { Content } from '../Content/Content';
-import { FaTrash, FaDownload } from 'react-icons/fa';
-import { Card } from '../Card/Card';
 import { FileForm } from '../FileForm/FileForm';
-import { Media } from '../Media';
+import { FileHelper } from '../../lib/FileHelper';
+import { FileList } from '../FileList';
 
 import 'halfmoon/css/halfmoon.min.css';
-import { FileHelper } from '../../lib/FileHelper';
 
 export const App = () => {
     const fileDownloadHelper = new FileDownloadHelper();
@@ -46,7 +43,7 @@ export const App = () => {
         });
     };
 
-    const handleRemoveFile = (file: FileInfo) => () => {
+    const handleRemove = (file: FileInfo) => {
         setFiles((prevState) => {
             const index = prevState.findIndex((p) => p.id === file.id);
             if (index >= 0) {
@@ -57,7 +54,7 @@ export const App = () => {
         });
     };
 
-    const handleDownload = (file: FileInfo) => () => {
+    const handleDownload = (file: FileInfo) => {
         fileDownloadHelper.download({
             data: fileHelper.dataURItoBlob(file),
             filename: file.name,
@@ -85,41 +82,16 @@ export const App = () => {
                 <Content title="">
                     <FileForm onFileLoaded={handleFileLoaded} />
                 </Content>
-                <Content title="Loaded files">
-                    <div className="d-flex flex-row flex-wrap">
-                        {files.map((file) => {
-                            return (
-                                <div key={file.id} className="w-400 mw-full">
-                                    <Card cardClassName="p-0">
-                                        <Media file={file} />
-                                        <Content title={file.name}>
-                                            <p>{file.size} Bytes</p>
-                                            <div className="text-center">
-                                                <button
-                                                    className="btn btn-primary"
-                                                    onClick={handleDownload(
-                                                        file,
-                                                    )}
-                                                >
-                                                    <FaDownload />{' '}
-                                                    <span>Download</span>
-                                                </button>
-                                                <button
-                                                    className="btn btn-danger"
-                                                    onClick={handleRemoveFile(
-                                                        file,
-                                                    )}
-                                                >
-                                                    <FaTrash />{' '}
-                                                    <span>Remove</span>
-                                                </button>
-                                            </div>
-                                        </Content>
-                                    </Card>
-                                </div>
-                            );
-                        })}
-                    </div>
+                <Content
+                    title={
+                        files.length > 0 ? `${files.length} file(s) Loaded` : ''
+                    }
+                >
+                    <FileList
+                        files={files}
+                        onDownload={handleDownload}
+                        onRemove={handleRemove}
+                    />
                 </Content>
             </ContentWrapper>
             <Footer onClickScrollToTop={handleClickScrollTop} />
