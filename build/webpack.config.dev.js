@@ -18,7 +18,7 @@ module.exports = {
     devServer: {
         port: 3000,
         host: '0.0.0.0',
-        contentBase: path.resolve('docs'),
+        contentBase: path.resolve('out'),
         historyApiFallback: true,
         hot: true,
         hotOnly: true,
