@@ -8,7 +8,8 @@
         "build:dev": "webpack --config build/webpack.config.dev.js",
         "build:prod": "webpack --config build/webpack.config.js",
         "build": "cross-env NODE_ENV=production npm run build:prod",
-        "lint": "eslint --ext .ts,.tsx src/ --quiet --fix"
+        "lint": "eslint --ext .ts,.tsx src/ --quiet --fix",
+        "deploy": "gh-pages -d out"
     },
     "repository": {
         "type": "git",
@@ -22,8 +23,14 @@
     },
     "homepage": "https://github.com/bbonkr/convert-file-to-base64-encoded-string#readme",
     "dependencies": {
+        "@bbon/filedownload": "^1.1.2",
+        "@bbon/formatter": "^1.0.1",
+        "halfmoon": "^1.1.1",
         "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "react-dom": "^16.13.1",
+        "react-dropzone": "^11.2.0",
+        "react-icons": "^3.11.0",
+        "smoothscroll-polyfill": "^0.4.4"
     },
     "devDependencies": {
         "@babel/core": "^7.11.6",
@@ -31,15 +38,15 @@
         "@babel/preset-react": "^7.10.4",
         "@babel/preset-typescript": "^7.10.4",
         "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
+        "@types/halfmoon": "^1.0.0",
         "@types/react": "^16.9.51",
         "@types/react-dom": "^16.9.8",
+        "@types/smoothscroll-polyfill": "^0.3.1",
         "@typescript-eslint/eslint-plugin": "^4.4.0",
         "@typescript-eslint/parser": "^4.4.0",
         "babel-loader": "^8.1.0",
-        "copy-webpack-plugin": "^6.2.1",
         "cross-env": "^7.0.2",
         "css-loader": "^4.3.0",
-        "dotenv": "^8.2.0",
         "eslint": "^7.11.0",
         "eslint-config-airbnb": "^18.2.0",
         "eslint-config-prettier": "^6.12.0",
@@ -50,6 +57,7 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-react": "^7.21.4",
         "eslint-plugin-standard": "^4.0.1",
+        "gh-pages": "^3.1.0",
         "html-webpack-plugin": "^4.5.0",
         "prettier": "^2.1.2",
         "react-refresh": "^0.8.3",
