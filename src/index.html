@@ -92,7 +92,9 @@
     </style>
   </head>
   <body>
-    <a href="https://github.com/bbonkr/convert-file-to-base64-encoded-string">
+      <noscript>Please Enable JavaScript. This app needs Javascript to run this app.</noscript>
+      <div id="app"></div>
+    <!-- <a href="https://github.com/bbonkr/convert-file-to-base64-encoded-string">
       <img style="position: absolute; z-index: 2; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub" />
     </a>
     
@@ -116,118 +118,118 @@
         <div id="results" class="row">
 
         </div>
-    </div>
+    </div> -->
 
     
     
     <script>
-    $(document).ready(function(){
-        if (typeof window.FileReader === 'undefined'){
-            bootbox.alert('File API & FileReader not supported');        
-        }
-        else{
-            $('#file').on('change', function(e){
-                e.preventDefault();
+    // $(document).ready(function(){
+    //     if (typeof window.FileReader === 'undefined'){
+    //         bootbox.alert('File API & FileReader not supported');        
+    //     }
+    //     else{
+    //         $('#file').on('change', function(e){
+    //             e.preventDefault();
 
-                var files = [].slice.call(e.originalEvent.target.files);
+    //             var files = [].slice.call(e.originalEvent.target.files);
 
-                $.each(files, function(index, item){
-                    var reader = new FileReader();
-                    reader.onload = function(event) {
-                        fileLoaded(item.name, event.target.result);
-                    };
-                    reader.readAsDataURL(item);
-                });
+    //             $.each(files, function(index, item){
+    //                 var reader = new FileReader();
+    //                 reader.onload = function(event) {
+    //                     fileLoaded(item.name, event.target.result);
+    //                 };
+    //                 reader.readAsDataURL(item);
+    //             });
                 
-                $(this).removeClass('hover');
-                $(this).val('');
-            });
+    //             $(this).removeClass('hover');
+    //             $(this).val('');
+    //         });
             
-            $('#dropzone').on('dragover', function(e){
-                e.preventDefault();
-                $(this).addClass('hover'); 
-            });
+    //         $('#dropzone').on('dragover', function(e){
+    //             e.preventDefault();
+    //             $(this).addClass('hover'); 
+    //         });
 
-            $('#dropzone').on('dragleave', function(e){
-                e.preventDefault();
-                $(this).removeClass('hover'); 
-            });
+    //         $('#dropzone').on('dragleave', function(e){
+    //             e.preventDefault();
+    //             $(this).removeClass('hover'); 
+    //         });
 
-            $('#dropzone').on('dragend', function(e){
-                e.preventDefault();
-                $(this).removeClass('hover');
-            });
+    //         $('#dropzone').on('dragend', function(e){
+    //             e.preventDefault();
+    //             $(this).removeClass('hover');
+    //         });
 
-            $('#dropzone').on('drop', function(e){
-                e.preventDefault();
+    //         $('#dropzone').on('drop', function(e){
+    //             e.preventDefault();
 
-                var files = [].slice.call(e.originalEvent.dataTransfer.files);
+    //             var files = [].slice.call(e.originalEvent.dataTransfer.files);
 
-                $.each(files, function(index, item){
-                    var fileReader = new FileReader();
-                    fileReader.onload = function(ev) {
-                        fileLoaded(item.name, ev.target.result);
-                    };
-                    fileReader.readAsDataURL(item);
-                });
+    //             $.each(files, function(index, item){
+    //                 var fileReader = new FileReader();
+    //                 fileReader.onload = function(ev) {
+    //                     fileLoaded(item.name, ev.target.result);
+    //                 };
+    //                 fileReader.readAsDataURL(item);
+    //             });
                 
-                $(this).removeClass('hover');
-            });
+    //             $(this).removeClass('hover');
+    //         });
 
-            if (typeof window.FileReader === 'undefined'){
-                bootbox.alert('File API & FileReader not supported')
-            }
-            else {
-                if(localStorage){
-                    for(var filename in localStorage){
-                        if(filename.indexOf("base64-") === 0){
-                            fileLoaded(filename.replace("base64-",""), localStorage.getItem(filename));            
-                        }
-                    }
-                }
-            }
-        }
-    });
+    //         if (typeof window.FileReader === 'undefined'){
+    //             bootbox.alert('File API & FileReader not supported')
+    //         }
+    //         else {
+    //             if(localStorage){
+    //                 for(var filename in localStorage){
+    //                     if(filename.indexOf("base64-") === 0){
+    //                         fileLoaded(filename.replace("base64-",""), localStorage.getItem(filename));            
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // });
     
-    function fileLoaded(filename, dataUri) {
-        //var divId = 'result' + new Date().getTime() + filename ;
-        var $results = $('#results');
-        var $name = $('<div></div>').addClass('text-left').text(filename);;
-        var $div = $('<div></div>').addClass('row item');
-        var $removeDiv = $('<div></div>').addClass('text-right');
-        var $remove = $('<button></button>').addClass('btn btn-default remove').text('x');
-        $remove.on('click', function(e){
-            if(localStorage) localStorage.removeItem('base64-' + filename);
-            $div.remove();
-        });
+    // function fileLoaded(filename, dataUri) {
+    //     //var divId = 'result' + new Date().getTime() + filename ;
+    //     var $results = $('#results');
+    //     var $name = $('<div></div>').addClass('text-left').text(filename);;
+    //     var $div = $('<div></div>').addClass('row item');
+    //     var $removeDiv = $('<div></div>').addClass('text-right');
+    //     var $remove = $('<button></button>').addClass('btn btn-default remove').text('x');
+    //     $remove.on('click', function(e){
+    //         if(localStorage) localStorage.removeItem('base64-' + filename);
+    //         $div.remove();
+    //     });
 
-        $removeDiv.append($remove);
-        $div.append($removeDiv);
-        $div.append($name);
+    //     $removeDiv.append($remove);
+    //     $div.append($removeDiv);
+    //     $div.append($name);
         
     
-        if(/^data:image/.test(dataUri)) {
-            var $imgDiv = $('<div></div>');
-            var $img  = $('<img />');
-            $img.attr('src', dataUri).css({'max-width': '100px', 'height-width':'100px'});
-            $imgDiv.append($img);
-            $div.append($imgDiv);
-        }
+    //     if(/^data:image/.test(dataUri)) {
+    //         var $imgDiv = $('<div></div>');
+    //         var $img  = $('<img />');
+    //         $img.attr('src', dataUri).css({'max-width': '100px', 'height-width':'100px'});
+    //         $imgDiv.append($img);
+    //         $div.append($imgDiv);
+    //     }
         
-        var $textarea = $('<textarea></textarea>');
-        $textarea.on('click', function(e){
-            $(this).select();
-        });
+    //     var $textarea = $('<textarea></textarea>');
+    //     $textarea.on('click', function(e){
+    //         $(this).select();
+    //     });
 
-        var $download = $('<a></a>').addClass('btn btn-primary').attr('href',dataUri).text('Download');
+    //     var $download = $('<a></a>').addClass('btn btn-primary').attr('href',dataUri).text('Download');
 
-        $textarea.val(dataUri);
-        $div.append($textarea);
-        $div.append($download);
-        $results.append($div);
+    //     $textarea.val(dataUri);
+    //     $div.append($textarea);
+    //     $div.append($download);
+    //     $results.append($div);
 
-        if(localStorage) localStorage.setItem('base64-' + filename, dataUri);
-    }
+    //     if(localStorage) localStorage.setItem('base64-' + filename, dataUri);
+    // }
     
 
     </script>
